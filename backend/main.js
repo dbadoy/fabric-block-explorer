@@ -8,8 +8,8 @@ const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 
-const tmpRouter = require("./api/skel");
-app.use('/hi', tmpRouter);
+const blockRouter = require("./api/block");
+app.use('/block', blockRouter);
 
 app.listen(port, () => {
     console.log("Server is running on port:" + port);

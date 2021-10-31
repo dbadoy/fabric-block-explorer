@@ -69,7 +69,15 @@ module.exports.getFabContract = async function(network, contractName) {
     }
 }
 
-module.exports.getBlockByNumber = async function(channel, blockNumber) { }
+module.exports.getBlockByNumber = async function(channel, blockNumber) {
+    try {
+        const res = await channel.queryBlock(blockNumber, '', false, false);
+        return res;
+    } catch (error) {
+        console.log("error in query block by block number.");
+        return newError(errType.FABRIC, error);
+    }
+}
 
 module.exports.getBlockByTxId = async function(channel, transactionId) {
     try {
@@ -81,7 +89,26 @@ module.exports.getBlockByTxId = async function(channel, transactionId) {
     }
 }
 
-module.exports.getBlockListByRange = async function(network, startBlock, endBlock) { }
+module.exports.getBlockListByRange = async function(network, startBlock, endBlock) {
+    var blockList = [];
+    try {
+        await network.addBlockListener('listener', async(err, block) => {
+            if(!block) {
+                
+            }
+            blockList.push(block);
+
+        }, {startBlock: startBlock, endBlock: endBlock})
+
+        if(blockList.length == (endBlock - startBlock + 1)) {
+            return blockList;
+        }
+
+    } catch (error) {
+        console.log("error in getBlockListByRange! : ", error);
+        return newError(errType.FABRIC, error);
+    }
+}
 
 async function walletChecker(userName) {
     const userExists = wallet.exists(userName);
