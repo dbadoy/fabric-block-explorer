@@ -7,21 +7,27 @@ const ccpPath = path.resolve(String(process.env.CONNECTIONORG1));
 const walletPath = path.join(process.env.WALLET);
 const wallet = new FileSystemWallet(walletPath);
 
-const connectionOptions = {
-    identity: process.env.FABRIC_CLIENT_ID,
-    wallet: wallet,
-    discovery: { enabled: true, asLocalhost: true}, // TODO: asLocalhost -> use .env
-} 
+
 
 module.exports.genFabricGateway = async function() {
     if(!walletChecker(process.env.FABRIC_CLIENT_ID)) {
         return newError(errType.FABRIC, "not exist user in wallet.");
     };
+
+    var connectionOptions = {
+        identity: process.env.FABRIC_CLIENT_ID,
+        wallet: wallet,
+        discovery: { enabled: true, asLocalhost: false}, 
+    } 
+
+    if(process.env.MULTIHOST == "true") {
+        connectionOptions.discovery.asLocalhost = true;
+    }
+
     const gateway = new Gateway();
     try {
         await gateway.connect(ccpPath, connectionOptions);    
         console.log("success to create gateway.");
-
         return gateway;
     } catch (error) {
         console.log("error in gateway connect! :", error);

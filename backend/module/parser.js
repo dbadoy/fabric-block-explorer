@@ -12,6 +12,14 @@ module.exports.getSignerList = async function(block) {
     return signerList;
 }
 
+module.exports.getDataList = function(block) {
+    var dataArr = [];
+    for await (const data of block.data.data) {
+        dataArr.push(t);
+    }
+    return dataArr;
+}
+
 // data
 module.exports.getChannelName = function(data) {
     return data.payload.header.channel_header.channel_id;
@@ -52,4 +60,3 @@ module.exports.getRWsetByChaincodeName = async function(data, chiancodeName) {
     }
     return rwset;
 }
-

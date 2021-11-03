@@ -1,6 +1,7 @@
 // skel
 const ErrType = {
-    FABRIC: "error in fabric"
+    FABRIC: "error in fabric",
+    POOL: "error in fabric pool"
 }
 
 class errObject {
