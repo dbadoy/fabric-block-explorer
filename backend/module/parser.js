@@ -42,7 +42,7 @@ module.exports.getChaincodeArgs = function(data) {
     return data.payload.data.actions[0].payload.chaincode_proposal_payload.input.chaincode_spec.input.args;
 }
 
-module.exports.getRWsetByChaincodeName = function(data, chiancodeName) {
+module.exports.getRWsetByChaincodeName = async function(data, chiancodeName) {
     var ns = data.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset;
     var rwset = [];
     for await(const v of ns) {

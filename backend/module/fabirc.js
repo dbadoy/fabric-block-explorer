@@ -4,13 +4,13 @@ const { newError, errType } = require("./errhandler");
 const { FileSystemWallet ,Gateway } = require('fabric-network');
 const ccpPath = path.resolve(String(process.env.CONNECTIONORG1));
 
-const walletPath = path.join(process.env.WALLT);
+const walletPath = path.join(process.env.WALLET);
 const wallet = new FileSystemWallet(walletPath);
 
 const connectionOptions = {
     identity: process.env.FABRIC_CLIENT_ID,
     wallet: wallet,
-    discovery: { enabled: true, asLocalhost: process.env.MULTIHOST},
+    discovery: { enabled: true, asLocalhost: true}, // TODO: asLocalhost -> use .env
 } 
 
 module.exports.genFabricGateway = async function() {
