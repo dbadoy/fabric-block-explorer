@@ -7,11 +7,9 @@ const ccpPath = path.resolve(String(process.env.CONNECTIONORG1));
 const walletPath = path.join(process.env.WALLET);
 const wallet = new FileSystemWallet(walletPath);
 
-
-
 module.exports.genFabricGateway = async function() {
     if(!walletChecker(process.env.FABRIC_CLIENT_ID)) {
-        return newError(errType.FABRIC, "not exist user in wallet.");
+        throw newError(errType.FABRIC, "not exist user in wallet.");
     };
 
     var connectionOptions = {
@@ -31,7 +29,7 @@ module.exports.genFabricGateway = async function() {
         return gateway;
     } catch (error) {
         console.log("error in gateway connect! :", error);
-        return newError(errType.FABRIC, error)
+        throw newError(errType.FABRIC, error)
     }
 }
 
@@ -41,7 +39,7 @@ module.exports.FabricDisconnection = async function(gateway, channel) {
         channel.close();
     } catch(error) {
         console.log("error in fabric disconnect! : ", error);
-        return newError(errType.FABRIC, error);
+        throw newError(errType.FABRIC, error);
     }
 }
 
@@ -51,7 +49,7 @@ module.exports.getFabNetwork = async function(gateway, channelName) {
         return network;
     } catch (error) {
         console.log("error in create network! : ", error);
-        return newError(errType.FABRIC, error);
+        throw newError(errType.FABRIC, error);
     }
 }
 
@@ -61,7 +59,7 @@ module.exports.getFabChannel = async function(network, channelName) {
         return channel   
     } catch (error) {
         console.log("error in create channel! : ", error);
-        return newError(errType.FABRIC, error);
+        throw newError(errType.FABRIC, error);
     }
 }
 
@@ -71,7 +69,7 @@ module.exports.getFabContract = async function(network, contractName) {
         return contract;
     } catch (error) {
         console.log("error in cretae contract! : ", error);
-        return newError(errType.FABRIC, error);
+        throw newError(errType.FABRIC, error);
     }
 }
 
@@ -81,7 +79,7 @@ module.exports.getBlockByNumber = async function(channel, blockNumber) {
         return res;
     } catch (error) {
         console.log("error in query block by block number.");
-        return newError(errType.FABRIC, error);
+        throw newError(errType.FABRIC, error);
     }
 }
 
@@ -91,7 +89,7 @@ module.exports.getBlockByTxId = async function(channel, transactionId) {
         return res;
     } catch (error) {
         console.log("error in query block by transaction id.");
-        return newError(errType.FABRIC, error);
+        throw newError(errType.FABRIC, error);
     }
 }
 
@@ -112,7 +110,7 @@ module.exports.getBlockListByRange = async function(network, startBlock, endBloc
 
     } catch (error) {
         console.log("error in getBlockListByRange! : ", error);
-        return newError(errType.FABRIC, error);
+        throw newError(errType.FABRIC, error);
     }
 }
 

@@ -11,13 +11,13 @@ class Pool {
         this.isConnect = false;   
     }
 
-    Initial() {
+    async Initial() {
         try {
             this.Gateway = await fabric.genFabricGateway(); 
             this.Network = await fabric.getFabNetwork(this.Gateway, this.ChannelName);
             this.Channel = await fabric.getFabChannel(this.Network, this.ChannelName);
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -26,18 +26,22 @@ class Pool {
     }
 
     getAllContract() {
+        if(this.Contract.length == 0) {
+            throw newError(errType.POOL, "no Contract in pool");
+        }
         return this.Contract;
     }
 
-    getContractByName(contractName) {
-        for (const ctr of this.Contract) {
+    async getContractByName(contractName) {
+        for await(const ctr of this.Contract) {
             if(ctr.ContractName == contractName) {
                 return ctr;
             }
         }
+        throw newError(errType.POOL, "non exist contract! : ", contractName)
     }
 
-    setContract(contractName) {
+    async setContract(contractName) {
         try {
             var object = {
                 "ContractName": null,
@@ -49,7 +53,7 @@ class Pool {
 
             this.Contract.push(object);
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -58,12 +62,12 @@ class Pool {
         if(this.ChannelName && this.Gateway && this.Channel) { this.isConnect = true; } 
     }
 
-    disconnect() {
+    async disconnect() {
         try {
             await fabric.FabricDisconnection(this.Gateway, this.Channel);
             this.isConnect = false;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 }
@@ -75,7 +79,7 @@ class PoolGroup {
 
     addPool(poolName, pool) {
         if(!pool.isConnect) {
-            return newError(errType.POOL, "initial, build first!");
+            throw newError(errType.POOL, "initial, build first!");
         }
 
         var object = {
@@ -87,32 +91,37 @@ class PoolGroup {
         object.Pool = pool;
 
         this.List.push(object);
+        console.log("success addPool")
     }
 
-    getPoolByName(poolName) {
-        for (const item of this.List) {
+    async getPoolByName(poolName) {
+        for await(const item of this.List) {
             if(item.PoolName == poolName) {
                 return item.Pool;
             }
         }
+        throw newError(errType.POOL, "non exists pool name : ", poolName);
     }
 
     getAllPool() {
         return this.List;
     }
 
-    getAllPoolName() {
+    async getAllPoolName() {
         var arr = [];
-        for (const item of this.List) {
+        if(this.List.length == 0) {
+            throw newError(errType.POOL, "empty pool");
+        }
+
+        for await(const item of this.List) {
             arr.push(item.PoolName);
         }
         return arr;
     }
-
 }
 
-exports.module.createPool = async function(channelName) {
+module.exports.createPool = function(channelName) {
     return new Pool(channelName);
 }
 
-exports.module.PoolGroup = new PoolGroup();
+module.exports.PoolGroup = new PoolGroup();

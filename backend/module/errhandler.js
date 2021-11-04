@@ -1,6 +1,6 @@
-// skel
 const ErrType = {
     FABRIC: "error in fabric",
+    PARSER: "error in parser",
     POOL: "error in fabric pool"
 }
 
@@ -20,7 +20,7 @@ class errObject {
 
 module.exports.newError = function(type, message) {
     var err = new errObject(type, message);
-    return err;
+    return new Error(JSON.stringify(err));
 } 
 
 module.exports.errType = ErrType;

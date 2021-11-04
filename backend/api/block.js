@@ -2,7 +2,7 @@ const router = require("express").Router();
 
 const parser = require("../module/parser");
 const fabric = require("../module/fabric");
-const { creatPool, PoolGroup } = require("../module/pool");
+const { createPool, PoolGroup } = require("../module/pool");
 const { newError, errType } = require("../module/errhandler");
 const { request } = require("express");
 
@@ -15,7 +15,7 @@ router.post('/createPool', async(request, response) => {
     var newPool = createPool(channelName);
 
     try {
-        newPool.Initial();
+        await newPool.Initial();
         newPool.build();            
     } catch (error) {
         return response.status(400).json({"response": error});
@@ -27,15 +27,20 @@ router.post('/createPool', async(request, response) => {
 })
 
 router.get('/getPoolGroup', async(request, response) => {
-    return response.status(200).json({"response": PoolGroup.getAllPoolName()});
+    try {
+        const res = await PoolGroup.getAllPoolName();
+        return response.status(200).json({"response": res});
+    } catch (error) {
+        return response.status(400).json({"response": error});
+    }
 })
 
 // test
-router.post('/getByBlockNumber', async(request, response) => {
+router.post('/getBlockByNumber', async(request, response) => {
     var channelName = request.body.channelName;
     var blockNumber = request.body.blockNumber;
     try {
-	    const chanPool = PoolGroup.getPoolByName(channelName);
+	    const chanPool = await PoolGroup.getPoolByName(channelName);
 
         const block = await fabric.getBlockByNumber(chanPool.Channel, blockNumber);
         const dataList = await parser.getDataList(block);
@@ -44,7 +49,6 @@ router.post('/getByBlockNumber', async(request, response) => {
         for await(const data of dataList) {
             result.push(parser.getResponse(data));
         }
-        await fabric.FabricDisconnection(gateway, channel);
         return response.status(200).json({"response": result});
     } catch (error) {
         return response.status(400).json({"response": error});
