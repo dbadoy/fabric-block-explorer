@@ -94,6 +94,19 @@ class PoolGroup {
         console.log("success addPool")
     }
 
+    async delPool(poolName) {
+        try {
+            var pool = await this.getPoolByName(poolName); 
+            await pool.Pool.disconnect()
+
+            // TODO: delete object in this.List
+
+            this.List = this.List.filter(null);
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async getPoolByName(poolName) {
         for await(const item of this.List) {
             if(item.PoolName == poolName) {
