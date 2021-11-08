@@ -94,14 +94,21 @@ class PoolGroup {
         console.log("success addPool")
     }
 
+    refreshPoolGroup() {
+        for(var i = 0; i < this.List.length; i++) {
+            if(!this.List[i].Pool.isConnect) {
+                delete this.List[i];
+                this.List = this.List.filter(null);
+            }
+        }
+    }
+
     async delPool(poolName) {
         try {
+            // TODO: need check ...
             var pool = await this.getPoolByName(poolName); 
-            await pool.Pool.disconnect()
-
-            // TODO: delete object in this.List
-
-            this.List = this.List.filter(null);
+            await pool.Pool.disconnect();
+            this.refreshPoolGroup();
         } catch (error) {
             throw error;
         }

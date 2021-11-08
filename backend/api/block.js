@@ -86,21 +86,49 @@ router.get('/getBlockByNumber/:channelName/:blockNumber', async(request, respons
     }  
 });
 
-router.get('/getBlockByTxId/:txId', async(request, response) => {
+router.get('/getBlockByTxId/:channelNmae/:txId', async(request, response) => {
     console.log('start getBlockByTxId');
 
-    const { txId } = request.params;
+    const { channelName, txId } = request.params;
 
     try {
-        const res = await fabric.getBlockByTxId(txId);
+        const chanPool = await PoolGroup.getPoolByName(channelName);
+        const res = await fabric.getBlockByTxId(chanPool.Channel, txId);
         return setResponse(response, 200, res);
     } catch (error) {
-        return setResponse(response,400, error);
+        return setResponse(response, 400, error);
     }
 });
 
-router.get('/getBlockByRange', async(request, response) => {
-    //TODO: .
+router.get('/getBlockByRange/:channelName/:startBlock/:endBlock', async(request, response) => {
+    console.log('start getBlockByRange');
+
+    const { channelName, startBlock, endBlock } = request.params;
+
+    try {
+        if(startBlock > endBlock) {
+            return setResponse(response, 400, newError(errType.FABRIC, ''));   
+        }
+
+        const chanPool = await PoolGroup.getPoolByName(channelName);
+        const res = await fabric.getBlockListByRange(chanPool.Network, startBlock, endBlock);
+
+        return setResponse(response, 200, res);
+    } catch (error) {
+        return setResponse(response, 400, error);
+    }
 });
+
+router.get('/getBlockHeight/:channelName', async(request, response) => {
+    console.log('start getBlockHeight');
+
+    const { channelName } = request.params;
+
+    try {
+        // TODO: add logic for get block heigth. in module/fabric.js
+    } catch (error) {
+        
+    }
+})
 
 module.exports = router;

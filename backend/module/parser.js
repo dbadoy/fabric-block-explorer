@@ -38,7 +38,6 @@ module.exports.getTransactionId = function(data) {
     return data.payload.header.channel_header.tx_id;
 }
 
-
 // TODO : Wrapping ? duplicated logic ... check channel block .
 module.exports.getChaincodeName = function(data) {
     if(!data.payload.data.actions) {
