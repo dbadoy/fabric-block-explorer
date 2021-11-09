@@ -125,7 +125,7 @@ router.get('/getBlockHeight/:channelName', async(request, response) => {
     const { channelName } = request.params;
 
     try {
-        // TODO: add logic for get block heigth. in module/fabric.js
+        // TODO: add logic for get block height. in module/fabric.js
     } catch (error) {
         
     }
