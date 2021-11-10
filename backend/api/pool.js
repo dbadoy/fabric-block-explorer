@@ -5,12 +5,12 @@ const { setResponse } = require("../module/message");
 const { PoolGroup } = require("../module/pool");
 const { createPool } = require("../module/pool");
 
-router.get('/', async(request, response) => {
-    console.log(PoolGroup);
-    return setResponse(response, 200, "success"); 
-});
+// router.get('/', async(request, response) => {
+//     console.log(PoolGroup);
+//     return setResponse(response, 200, "success"); 
+// });
 
-router.post('/createPool', async(request, response) => {
+router.post('/', async(request, response) => {
     console.log('start createPool.');
 
     const { channelName } = request.body;
@@ -29,7 +29,7 @@ router.post('/createPool', async(request, response) => {
     return setResponse(response, 200, channelName); 
 });
 
-router.get('/getPool/:poolName', async(request, response) => {
+router.get('/:poolName', async(request, response) => {
     console.log('start getPool.');
 
     const { poolName } = request.params;
@@ -41,7 +41,7 @@ router.get('/getPool/:poolName', async(request, response) => {
     }
 });
 
-router.get('/getPoolGroup', async(request, response) => {
+router.get('/group', async(request, response) => {
     console.log('start getPoolGroup.');
     try {
         const res = await PoolGroup.getAllPoolName();
@@ -51,7 +51,7 @@ router.get('/getPoolGroup', async(request, response) => {
     }
 });
 
-router.delete('/deletePool/:poolName', async(request, response) => {
+router.delete('/:poolName', async(request, response) => {
     console.log('start delPool.');
 
     const { poolName } = request.params;
