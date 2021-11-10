@@ -57,12 +57,12 @@ class Pool {
         }
     }
 
-    build() {
+    Done() {
         if(this.isConnect == true) { return newError(errType.POOL, "already connected!"); }
         if(this.ChannelName && this.Gateway && this.Channel) { this.isConnect = true; } 
     }
 
-    async disconnect() {
+    async Disconnect() {
         try {
             await fabric.FabricDisconnection(this.Gateway, this.Channel);
             this.isConnect = false;
@@ -106,7 +106,7 @@ class PoolGroup {
     async delPool(poolName) {
         try {
             var pool = await this.getPoolByName(poolName); 
-            await pool.disconnect();
+            await pool.Disconnect();
             this.refreshPoolGroup();
         } catch (error) {
             throw error;
@@ -139,8 +139,17 @@ class PoolGroup {
     }
 }
 
+class PGSingleton {
+    constructor() {
+        if(!PGSingleton.PoolGroup) {
+            PGSingleton.PoolGroup = new PoolGroup();
+        }
+        return PGSingleton.PoolGroup;
+    }
+}
+
 module.exports.createPool = function(channelName) {
     return new Pool(channelName);
 }
 
-module.exports.PoolGroup = new PoolGroup();
+module.exports.PoolGroup = new PGSingleton();

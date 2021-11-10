@@ -8,6 +8,9 @@ const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 
+const poolRouter = require("./api/pool");
+app.use('/pool', poolRouter);
+
 const blockRouter = require("./api/block");
 app.use('/block', blockRouter);
 
