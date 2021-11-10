@@ -13,7 +13,7 @@ router.get('/', async(request, response) => {
     return setResponse(response, 200, "success"); 
 });
 
-router.get('/getBlockByNumber/:channelName/:blockNumber', async(request, response) => {
+router.get('/blockByNumber/:channelName/:blockNumber', async(request, response) => {
     console.log('start getBlockByNumber');
 
     const { channelName, blockNumber } = request.params;
@@ -34,7 +34,7 @@ router.get('/getBlockByNumber/:channelName/:blockNumber', async(request, respons
     }  
 });
 
-router.get('/getBlockByTxId/:channelNmae/:txId', async(request, response) => {
+router.get('/blockByTxId/:channelNmae/:txId', async(request, response) => {
     console.log('start getBlockByTxId');
 
     const { channelName, txId } = request.params;
@@ -48,7 +48,7 @@ router.get('/getBlockByTxId/:channelNmae/:txId', async(request, response) => {
     }
 });
 
-router.get('/getBlockByRange/:channelName/:startBlock/:endBlock', async(request, response) => {
+router.get('/blockByRange/:channelName/:startBlock/:endBlock', async(request, response) => {
     console.log('start getBlockByRange');
 
     const { channelName, startBlock, endBlock } = request.params;
@@ -67,7 +67,7 @@ router.get('/getBlockByRange/:channelName/:startBlock/:endBlock', async(request,
     }
 });
 
-router.get('/getBlockHeight/:channelName', async(request, response) => {
+router.get('/blockHeight/:channelName', async(request, response) => {
     console.log('start getBlockHeight');
 
     const { channelName } = request.params;
