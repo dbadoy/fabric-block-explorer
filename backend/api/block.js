@@ -1,9 +1,9 @@
 const router = require("express").Router();
 
-const parser = require("../module/parser");
+const { ParseBlockWithOpt, ParseBlockListWithOpt } = require("../module/parser");
 const fabric = require("../module/fabric");
 
-const { setResponse } = require("../module/message");
+const { setResponse, getBlockParser } = require("../module/message");
 const { newError, errType } = require("../module/errhandler");
 
 const { PoolGroup } = require("../module/pool");
@@ -17,17 +17,14 @@ router.get('/blockByNumber/:channelName/:blockNumber', async(request, response) 
     console.log('start getBlockByNumber');
 
     const { channelName, blockNumber } = request.params;
+    const Parser = getBlockParser(request);
 
     try {
 	    const chanPool = await PoolGroup.getPoolByName(channelName);
 
         const block = await fabric.getBlockByNumber(chanPool.Channel, Number(blockNumber));
-        const dataList = await parser.getDataList(block);
+        const result = await ParseBlockWithOpt(Parser, block);
 
-        var result = [];
-        for await(const data of dataList) {
-            result.push(parser.getResponse(data));
-        }
         return setResponse(response, 200, result); 
     } catch (error) {
         return setResponse(response, 400, error);
@@ -41,8 +38,11 @@ router.get('/blockByTxId/:channelNmae/:txId', async(request, response) => {
 
     try {
         const chanPool = await PoolGroup.getPoolByName(channelName);
-        const res = await fabric.getBlockByTxId(chanPool.Channel, txId);
-        return setResponse(response, 200, res);
+
+        const block = await fabric.getBlockByTxId(chanPool.Channel, txId);
+        const result = await ParseBlockWithOpt(Parser, block);
+
+        return setResponse(response, 200, result);
     } catch (error) {
         return setResponse(response, 400, error);
     }
@@ -60,9 +60,10 @@ router.get('/blockByRange/:channelName/:startBlock/:endBlock', async(request, re
 
         const chanPool = await PoolGroup.getPoolByName(channelName);
 
-        const res = await fabric.getBlockListByRange(chanPool.Network, chanPool.getListenerId(), startBlock, endBlock);
+        const blockList = await fabric.getBlockListByRange(chanPool.Network, chanPool.getListenerId(), startBlock, endBlock);
+        const result = await ParseBlockListWithOpt(blockList);
 
-        return setResponse(response, 200, res);
+        return setResponse(response, 200, result);
     } catch (error) {
         return setResponse(response, 400, error);
     }

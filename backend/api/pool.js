@@ -5,10 +5,15 @@ const { setResponse } = require("../module/message");
 const { PoolGroup } = require("../module/pool");
 const { createPool } = require("../module/pool");
 
-// router.get('/', async(request, response) => {
-//     console.log(PoolGroup);
-//     return setResponse(response, 200, "success"); 
-// });
+router.get('/', async(request, response) => {
+    console.log('start getPoolGroup.');
+    try {
+        const res = await PoolGroup.getAllPoolName();
+        return setResponse(response, 200, res); 
+    } catch (error) {
+        return setResponse(response, 400, error); 
+    }
+});
 
 router.post('/', async(request, response) => {
     console.log('start createPool.');
@@ -38,16 +43,6 @@ router.get('/:poolName', async(request, response) => {
         return setResponse(response, 200, res.isConnect);
     } catch (error) {
         return setResponse(response, 400, error);
-    }
-});
-
-router.get('/', async(request, response) => {
-    console.log('start getPoolGroup.');
-    try {
-        const res = await PoolGroup.getAllPoolName();
-        return setResponse(response, 200, res); 
-    } catch (error) {
-        return setResponse(response, 400, error); 
     }
 });
 
