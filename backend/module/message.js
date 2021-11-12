@@ -1,4 +1,4 @@
-const { Options }  = require('./option');
+const { OptionRouter }  = require('./option');
 
 module.exports.getBlockParser = function(request) {
     return OptionRouter(request);
