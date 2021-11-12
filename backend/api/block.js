@@ -55,11 +55,12 @@ router.get('/blockByRange/:channelName/:startBlock/:endBlock', async(request, re
 
     try {
         if(startBlock > endBlock) {
-            return setResponse(response, 400, newError(errType.FABRIC, ''));   
+            return setResponse(response, 400, newError(errType.FABRIC, 'startBlock must be gt endBlock'));   
         }
 
         const chanPool = await PoolGroup.getPoolByName(channelName);
-        const res = await fabric.getBlockListByRange(chanPool.Network, startBlock, endBlock);
+
+        const res = await fabric.getBlockListByRange(chanPool.Network, chanPool.getListenerId(), startBlock, endBlock);
 
         return setResponse(response, 200, res);
     } catch (error) {

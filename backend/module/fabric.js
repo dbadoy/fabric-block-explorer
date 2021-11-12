@@ -93,25 +93,25 @@ module.exports.getBlockByTxId = async function(channel, transactionId) {
     }
 }
 
-module.exports.getBlockListByRange = async function(network, startBlock, endBlock) {
-    var blockList = [];
-    try {
-        await network.addBlockListener('listener', async(err, block) => {
-            if(!block) {
-                
-            }
-            blockList.push(block);
-
-        }, {startBlock: startBlock, endBlock: endBlock})
-
-        if(blockList.length == (endBlock - startBlock + 1)) {
-            return blockList;
+module.exports.getBlockListByRange = async function(network, listenerId, startBlock, endBlock) {
+    return new Promise(async(resolve,rejects) => {
+        var blockList = [];
+        try {
+            await network.addBlockListener('listener' + listenerId, async(err, block) => {
+                if(!block) { }
+    
+                blockList.push(block);
+    
+                if(block.header.number == endBlock) {
+                    resolve(blockList);
+                }
+    
+            }, {startBlock: startBlock, endBlock: endBlock})
+        } catch (error) {
+            console.log("error in getBlockListByRange! : ", error);
+            rejects(newError(errType.FABRIC, error));
         }
-
-    } catch (error) {
-        console.log("error in getBlockListByRange! : ", error);
-        throw newError(errType.FABRIC, error);
-    }
+    })
 }
 
 async function walletChecker(userName) {

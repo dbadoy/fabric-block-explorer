@@ -1,6 +1,6 @@
 module.exports.setResponse = function(response, code, context) {
     console.log("action code : ", code);
-    console.log("action result : ", context);
+    //console.log("action result : ", context);
     
     switch(code / 100) {
         case 2:

@@ -35,13 +35,13 @@ router.get('/:poolName', async(request, response) => {
     const { poolName } = request.params;
     try {
         const res = await PoolGroup.getPoolByName(poolName);
-        return setResponse(response, 200, res);
+        return setResponse(response, 200, res.isConnect);
     } catch (error) {
         return setResponse(response, 400, error);
     }
 });
 
-router.get('/group', async(request, response) => {
+router.get('/', async(request, response) => {
     console.log('start getPoolGroup.');
     try {
         const res = await PoolGroup.getAllPoolName();

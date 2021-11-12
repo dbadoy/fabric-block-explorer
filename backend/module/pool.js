@@ -8,6 +8,7 @@ class Pool {
         this.Gateway = null;
         this.Network = null;
         this.Channel = null;
+        this.ListenerId = 0;
         this.isConnect = false;   
     }
 
@@ -19,6 +20,11 @@ class Pool {
         } catch (error) {
             throw error;
         }
+    }
+
+    getListenerId() {
+        this.ListenerId ++;
+        return this.ListenerId;
     }
 
     getChannelName() {
