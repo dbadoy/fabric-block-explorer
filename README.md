@@ -6,7 +6,7 @@ You just need to move connection.json and wallet to connection/
 
 - [x] Fabric connection
 - [ ] Block parser
-- [x] block API
+- [ ] block API
 - [x] pool API
 - [ ] Front-end
 
