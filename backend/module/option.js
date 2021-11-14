@@ -31,8 +31,8 @@ module.exports.OptionRouter = function(request) {
             return Parser.getChaincodeName;
         case Options.ChaincodeArgs:
             return Parser.getChaincodeArgs;
-        case Options.RWset: // TODO :
-            return Parser.getRWsetByChaincodeName;
+        case Options.RWset:
+            return Parser.getRWset;
         default:
             throw new Error();
     }

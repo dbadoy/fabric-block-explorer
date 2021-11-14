@@ -75,9 +75,12 @@ router.get('/blockHeight/:channelName', async(request, response) => {
     const { channelName } = request.params;
 
     try {
-        // TODO: add logic for get block height. in module/fabric.js
+        const chanPool = await PoolGroup.getPoolByName(channelName);
+        await chanPool.Network.addBlockListener('getChannelHeight' + chanPool.getListenerId(), async(err, block) => {
+            return setResponse(response, 200, block.header.number);
+        })
     } catch (error) {
-        
+        return setResponse(response, 400, error);
     }
 })
 

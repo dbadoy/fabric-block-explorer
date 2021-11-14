@@ -116,16 +116,9 @@ module.exports.getChaincodeArgs = function(data) {
     return data.payload.data.actions[0].payload.chaincode_proposal_payload.input.chaincode_spec.input.args;
 }
 
-module.exports.getRWsetByChaincodeName = async function(data, chiancodeName) {
+module.exports.getRWset = async function(data) {
     if(!data.payload.data.actions) {
         throw newError(errType.PARSER, "this is channel block.");
     }
-    var ns = data.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset;
-    var rwset = [];
-    for await(const v of ns) {
-        if(v.namespace == chiancodeName) {
-            rwset.push(v);
-        }
-    }
-    return rwset;
+    return  data.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset;
 }
