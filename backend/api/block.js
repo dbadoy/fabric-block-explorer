@@ -76,9 +76,11 @@ router.get('/blockHeight/:channelName', async(request, response) => {
 
     try {
         const chanPool = await PoolGroup.getPoolByName(channelName);
-        await chanPool.Network.addBlockListener('getChannelHeight' + chanPool.getListenerId(), async(err, block) => {
-            return setResponse(response, 200, block.header.number);
-        })
+	
+	const info = await chanPool.Channel.queryInfo();
+	const result = Number(info.height) - 1;
+	    
+	return setResponse(response, 200, result); 
     } catch (error) {
         return setResponse(response, 400, error);
     }
