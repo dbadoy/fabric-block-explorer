@@ -35,7 +35,7 @@ module.exports.ParseBlockListWithOpt = async function(parser, blockList) {
             "blockNumber" : block.header.number,
             "result" : null 
         }
-        var parsedBlock = await this.ParseBlockWithOpt(block);
+        var parsedBlock = await this.ParseBlockWithOpt(parser, block);
 
         obj.result = parsedBlock;
         result.push(obj);
