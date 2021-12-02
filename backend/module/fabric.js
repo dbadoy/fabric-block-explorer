@@ -56,7 +56,7 @@ module.exports.getFabNetwork = async function(gateway, channelName) {
 module.exports.getFabChannel = async function(network, channelName) {
     try {
         const channel = await network.getChannel(channelName);
-        return channel   
+        return channel;
     } catch (error) {
         console.log("error in create channel! : ", error);
         throw newError(errType.FABRIC, error);
@@ -89,6 +89,16 @@ module.exports.getBlockByTxId = async function(channel, transactionId) {
         return res;
     } catch (error) {
         console.log("error in query block by transaction id.");
+        throw newError(errType.FABRIC, error);
+    }
+}
+
+module.exports.getBlockHeight = async function(channel) {
+    try {
+        const res = await channel.queryInfo();
+        return Number(res.height) - 1;
+    } catch (error) {
+        console.log("error in get block height.");
         throw newError(errType.FABRIC, error);
     }
 }

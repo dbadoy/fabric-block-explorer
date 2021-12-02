@@ -76,11 +76,9 @@ router.get('/blockHeight/:channelName', async(request, response) => {
 
     try {
         const chanPool = await PoolGroup.getPoolByName(channelName);
-	
-	const info = await chanPool.Channel.queryInfo();
-	const result = Number(info.height) - 1;
+        const result = await fabric.getBlockHeight(chanPool.Channel);
 	    
-	return setResponse(response, 200, result); 
+	    return setResponse(response, 200, result); 
     } catch (error) {
         return setResponse(response, 400, error);
     }
