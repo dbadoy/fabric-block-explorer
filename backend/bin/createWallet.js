@@ -4,20 +4,20 @@ const { FileSystemWallet, X509WalletMixin } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-// TODO :
+require("dotenv").config();
 
 async function main() {
     try {
-        const wallet = new FileSystemWallet('./wallet');
+        const wallet = new FileSystemWallet('../connection/wallet');
 
-        const certPath = path.resolve('crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem');
+        const certPath = path.resolve(process.env.CERT_PATH);
         const cert = fs.readFileSync(certPath, 'utf8');
         
-        const keyPath = path.resolve('crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/encodedstr_sk');
+        const keyPath = path.resolve(process.env.KEY_PATH);
         const key = fs.readFileSync(keyPath, 'utf8');
 
-        const identityLabel = 'USERNAME';
-        const identity = X509WalletMixin.createIdentity('MSPNAME', cert, key);
+        const identityLabel = process.env.USER_NAME;
+        const identity = X509WalletMixin.createIdentity(process.env.MSP_NAME, cert, key);
 
         await wallet.import(identityLabel, identity);
     } catch (error) {
