@@ -5,8 +5,8 @@ You just need to move connection.json and wallet to connection/
 # Progress
 
 - [x] Fabric connection
-- [ ] Block parser
-- [ ] block API
+- [x] Block parser
+- [x] block API
 - [x] pool API
 - [ ] Front-end
 
