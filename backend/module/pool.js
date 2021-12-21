@@ -83,21 +83,25 @@ class PoolGroup {
         this.List = [];
     }
 
-    addPool(poolName, pool) {
+    async addPool(poolName, pool) {
         if(!pool.isConnect) {
             throw newError(errType.POOL, "initial, build first!");
         }
 
-        var object = {
-            PoolName: null,
-            Pool: null
-        };
-
-        object.PoolName = poolName;
-        object.Pool = pool;
-
-        this.List.push(object);
-        console.log("success addPool")
+        try {
+            const res = await this.getPoolByName(poolName);
+        } catch (error) {
+            var object = {
+                PoolName: null,
+                Pool: null
+            };
+    
+            object.PoolName = poolName;
+            object.Pool = pool;
+    
+            this.List.push(object);
+            console.log("success addPool");
+        }       
     }
 
     refreshPoolGroup() {

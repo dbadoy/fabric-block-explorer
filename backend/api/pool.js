@@ -29,7 +29,7 @@ router.post('/', async(request, response) => {
         return setResponse(response, 400, error);
     }
 
-    PoolGroup.addPool(channelName, newPool);
+    await PoolGroup.addPool(channelName, newPool);
 
     return setResponse(response, 200, channelName); 
 });
