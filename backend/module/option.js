@@ -18,7 +18,6 @@ async function ParseBlockWithOpt(parser, block) {
             "result" : null
         }
         var parsedData = parser(data);
-        console.log(parsedData);
 
         obj.result = parsedData;
         result.push(obj);
