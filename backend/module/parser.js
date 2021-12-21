@@ -1,49 +1,6 @@
 const bodyParser = require("body-parser");
 const { newError, errType } = require("./errhandler");
 
-// how to solve RWset ( contractname )
-module.exports.ParseBlockWithOpt = async function(parser, block) {
-    var result = []; 
-
-    if(parser == this.defaultGet) {
-        return block;
-    }
-    
-    var dataList = this.getDataList(block);
-    for await(const data of dataList) {
-        var obj = {
-            "transactionId" : this.getTransactionId(data),
-            "result" : null
-        }
-        var parsedData = parser(data);
-
-        obj.result = parsedData;
-        result.push(obj);
-    }
-    return result;
-}
-
-module.exports.ParseBlockListWithOpt = async function(parser, blockList) {
-    var result = [];
-
-    if(parser == this.defaultGet) {
-        return blockList;
-    }
-
-    for await(const block of blockList) {
-        var obj = {
-            "blockNumber" : block.header.number,
-            "result" : null 
-        }
-        var parsedBlock = await this.ParseBlockWithOpt(parser, block);
-
-        obj.result = parsedBlock;
-        result.push(obj);
-    }
-    return result;
-}
-//
-
 module.exports.defaultGet = function(block) {
     return block;
 }
@@ -113,12 +70,20 @@ module.exports.getChaincodeArgs = function(data) {
     if(!data.payload.data.actions) {
         throw newError(errType.PARSER, "this is channel block.");
     }
-    return data.payload.data.actions[0].payload.chaincode_proposal_payload.input.chaincode_spec.input.args;
+    return data.payload.data.actions[0].payload.chaincode_proposal_payload.input.chaincode_spec.input.args.toString();
 }
 
-module.exports.getRWset = async function(data) {
+module.exports.getRWset = function(data) {
     if(!data.payload.data.actions) {
         throw newError(errType.PARSER, "this is channel block.");
     }
-    return  data.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset;
+
+    var result = [];
+    for (const rwset of data.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset) {
+        if(rwset.rwset.writes.length > 0) {
+            result.push(rwset.rwset.writes);
+        }
+    }
+
+    return result;
 }

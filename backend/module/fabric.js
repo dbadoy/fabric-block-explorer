@@ -108,14 +108,14 @@ module.exports.getBlockListByRange = async function(network, listenerId, startBl
         var blockList = [];
         try {
             await network.addBlockListener('listener' + listenerId, async(err, block) => {
-                if(!block) { }
-    
+                if(!block) { rejects(newError(errType.FABRIC, "data no found")); }
+                else {
                 blockList.push(block);
     
                 if(block.header.number == endBlock) {
                     resolve(blockList);
                 }
-    
+                }
             }, {startBlock: startBlock, endBlock: endBlock})
         } catch (error) {
             console.log("error in getBlockListByRange! : ", error);

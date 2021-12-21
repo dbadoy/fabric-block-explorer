@@ -1,5 +1,52 @@
 const Parser = require('./parser');
 
+module.exports.ParseBlockWithOpt = ParseBlockWithOpt;
+module.exports.ParseBlockListWithOpt = ParseBlockListWithOpt;
+
+// how to solve RWset ( contractname )
+async function ParseBlockWithOpt(parser, block) {
+    var result = []; 
+
+    if(parser == Parser.defaultGet) {
+        return block;
+    }
+
+    var dataList = Parser.getDataList(block);
+    for await(const data of dataList) {
+        var obj = {
+            "transactionId" : Parser.getTransactionId(data),
+            "result" : null
+        }
+        var parsedData = parser(data);
+        console.log(parsedData);
+
+        obj.result = parsedData;
+        result.push(obj);
+    }
+    return result;
+}
+
+async function ParseBlockListWithOpt(parser, blockList) {
+    var result = [];
+
+    if(parser == Parser.defaultGet) {
+        return blockList;
+    }
+
+    for await(const block of blockList) {
+        var obj = {
+            "blockNumber" : block.header.number,
+            "result" : null 
+        }
+        var parsedBlock = await ParseBlockWithOpt(parser, block);
+
+        obj.result = parsedBlock;
+        result.push(obj);
+    }
+    return result;
+}
+//
+
 const Options = {
     All : 0,
     Response : 1,
@@ -12,11 +59,11 @@ const Options = {
 }
 
 module.exports.OptionRouter = function(request) {
-    if(!request.option) {
-        request.option = Options.All;
+    if(!request.body.option) {
+        request.body.option = Options.All;
         return Parser.defaultGet;
     }
-    switch(request.option) {
+    switch(request.body.option) {
         case Options.All:
             return Parser.defaultGet;
         case Options.Response:
@@ -29,11 +76,11 @@ module.exports.OptionRouter = function(request) {
             return Parser.getTransactionId;
         case Options.ChaincodeName:
             return Parser.getChaincodeName;
-        case Options.ChaincodeArgs:
+        case Options.ChaincodeAgrs:
             return Parser.getChaincodeArgs;
         case Options.RWset:
             return Parser.getRWset;
         default:
-            throw new Error();
+            throw new Error("unknown option");
     }
 }

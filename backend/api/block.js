@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const { ParseBlockWithOpt, ParseBlockListWithOpt } = require("../module/parser");
+const { ParseBlockWithOpt, ParseBlockListWithOpt } = require("../module/option");
 const fabric = require("../module/fabric");
 
 const { setResponse, getBlockParser } = require("../module/message");
@@ -19,8 +19,10 @@ router.get('/blockByNumber/:channelName/:blockNumber', async(request, response) 
     const { channelName, blockNumber } = request.params;
     const Parser = getBlockParser(request);
 
+	console.log(channelName, blockNumber);
+
     try {
-	const chanPool = await PoolGroup.getPoolByName(channelName);
+	    const chanPool = await PoolGroup.getPoolByName(channelName);
 
         const block = await fabric.getBlockByNumber(chanPool.Channel, Number(blockNumber));
         const result = await ParseBlockWithOpt(Parser, block);
@@ -35,6 +37,7 @@ router.get('/blockByTxId/:channelNmae/:txId', async(request, response) => {
     console.log('start getBlockByTxId');
 
     const { channelName, txId } = request.params;
+    const Parser = getBlockParser(request);
 
     try {
         const chanPool = await PoolGroup.getPoolByName(channelName);
@@ -52,6 +55,7 @@ router.get('/blockByRange/:channelName/:startBlock/:endBlock', async(request, re
     console.log('start getBlockByRange');
 
     const { channelName, startBlock, endBlock } = request.params;
+    const Parser = getBlockParser(request);
 
     try {
         if(startBlock > endBlock) {
@@ -61,7 +65,7 @@ router.get('/blockByRange/:channelName/:startBlock/:endBlock', async(request, re
         const chanPool = await PoolGroup.getPoolByName(channelName);
 
         const blockList = await fabric.getBlockListByRange(chanPool.Network, chanPool.getListenerId(), startBlock, endBlock);
-        const result = await ParseBlockListWithOpt(blockList);
+        const result = await ParseBlockListWithOpt(Parser, blockList);
 
         return setResponse(response, 200, result);
     } catch (error) {
