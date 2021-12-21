@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+        <script type="text/javascript" src="channel.js"></script>
+
+    </head>
+
+    <body style="background-color: black;">
+        <div style="color: white;">
+            <h1>Hyperledger fabric</h1>
+            <h3>Block explorer</h3>
+
+            <h2 id="channel"></h2>
+            <hr>
+            <script>
+                temp = location.href.split("?");
+                channelName = temp[1];
+                document.getElementById("channel").innerHTML = channelName;
+            </script>
+
+            <style>
+                .ed {
+                    width: 500px;
+                    height: 280px;
+                    margin-left:  120px;
+                    background-color: white;
+                    color: black;
+                    border-radius: 15px;
+                    text-align: center;
+                }
+            </style>
+
+            <div style="display: flex; color: black;">
+                <div class="ed">Organization<hr><br><p id="organization"></p></div>
+                <div class="ed">Block height<hr><br><br><p id="blockheight"></p></div>
+            </div>
+
+            <hr>
+
+            <script>
+                getBlockHeight();
+                getOrgs();
+            </script>
+
+            <div>
+                <h3>Block</h3>
+                <table style="text-align: left;">
+                    <thead>
+                        <tr>
+                            <th style="width: 220px;">BLOCK NUMBER</th>
+                            <th style="width: 220px;">TOTAL TXS</th>
+                            <th style="width: 220px;">TIMESTAMP</th>
+                            <th style="width: 220px;">DATA HASH</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list">
+                    </tbody>
+                    
+                </table>
+                <hr>
+                <div>
+                    <a>Start from : <input type="number" value="0" id="pagenum"></a>
+                    <br>
+                    <a>Page Size : <input type="number" value="0" id="pageSize"></a>
+                    
+                    <button onclick="getList()">move</button>
+                    <br>
+                    <br>
+                    <a>Block : <input type="text" value="1" id="blocknum"></a> 
+                    <select id="option">
+                        <option value="0">ALL</option>
+                        <option value="1">Response</option>
+                        <option value="2">channelName</option>
+                        <option value="3">Timestamp</option>
+                        <option value="4">TransactionID</option>
+                        <option value="5">ChaincodeName</option>
+                        <option value="6">ChaincodeArgs</option>
+                        <option value="7">RWset</option>  
+                    </select>
+                    <button onclick="getblock()">move</button>
+                    <div id="result">
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                var index = document.getElementById("pagenum").value;
+                var bh = document.getElementById("blockheight").innerHTML;
+
+                var pagination = Number(bh) / 5;
+                console.log(pagination);
+                getList();
+            </script>
+        </div>
+
+    </body>
+
+
+</html>

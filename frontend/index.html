@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+        <script type="text/javascript" src="pool.js"></script>
+
+    </head>
+
+    <body style="background-color: black;">
+        <div style="color: white;">
+            <h1>Hyperledger fabric</h1>
+            <h3>Block explorer</h3>
+
+            <p>Channel list</p>
+            <div id="channelList">
+                <hr>
+                <table style="text-align: left;">
+                    <thead>
+                        <tr>
+                            <th style="width: 220px;">Channel</th>
+                            <th style="width: 220px;">Block height</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list">
+                    </tbody>
+                </table>
+                <hr>
+            </div>
+
+            <script>
+                channelList();
+            </script>
+
+            <br>
+            <input type="text" id="channelName">
+            <button onclick="join()">join</button>
+        </div>
+
+    </body>
+
+
+</html>

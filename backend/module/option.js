@@ -58,7 +58,6 @@ const Options = {
 }
 
 module.exports.OptionRouter = function(request) {
-	console.log(request.query);
     if(!request.query.option) {
         request.query.option = Options.All;
         return Parser.defaultGet;
