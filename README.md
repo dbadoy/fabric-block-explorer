@@ -36,8 +36,56 @@ $ node createWallet
 $ node main
 ```
 
+## CLI
+If you don't need a GUI, see below. <br>
+
+```
+Channel name is 'general' in example.
+
+// join channel
+curl -XPOST http://IP:5000/pool -H "Content-Type: application/json" -d '{ "channelName": "general" }'
+
+// get channel
+curl http://IP:5000/pool/[CHANNELNAME]
+curl http://IP:5000/pool/general
+
+// get channel group
+curl http://IP:5000/pool
 
 
+// option in get block, block list
+ All : 0,
+ Response : 1,
+ ChannelName : 2,
+ Timestamp : 3,
+ TransactionId : 4,
+ ChaincodeName : 5,
+ ChaincodeAgrs : 6,
+ RWset : 7
+
+
+// get block by block number with option
+curl http://IP:5000/block/blockByNumber/[CHANNEL]/[BLOCKNUMBER]?option=[OPTION]
+curl http://IP:5000/block/blockByNumber/general/10?option=3
+ 
+ 
+// get block list by block number with option
+curl http://IP:5000/block/blockByRange/[CHANNEL]/[STARTBLOCK]/[ENDBLOCK]?option=[OPTION]
+curl http://IP:5000/block/blockByRange/general/5/10?option=3
+ 
+ 
+// get block by transaction id
+curl http://IP:5000/block/blockByTxId/[CHANNEL]/[TXID]
+curl http://IP:5000/block/blockByTxId/general/126eddd3fa23bd58655687625b901430c43c78a49c8a709c5d7ecee7def90d93
+
+// etc ( TODO:move /block --> /pool ? )
+// get channel's block height 
+curl http://IP:5000/block/blockHeight/[CHANNELNAME]
+
+// get channel's organizations
+curl http://IP:5000/block/organization/[CHANNELNAME]
+
+```
 
 
 ## Front-end Example
