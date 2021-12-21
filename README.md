@@ -63,13 +63,3 @@ You can create front-end application to suit your case.
 
 ![7](https://user-images.githubusercontent.com/72970043/146883019-916a280b-16aa-4547-844b-7df9176aeefa.PNG)
 
-
-
-# Progress
-
-- [x] Fabric connection
-- [x] Block parser
-- [x] block API
-- [x] pool API
-- [ ] Front-end
-
