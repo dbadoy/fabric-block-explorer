@@ -103,6 +103,16 @@ module.exports.getBlockHeight = async function(channel) {
     }
 }
 
+module.exports.getOrganization = async function(channel) {
+    try {
+        const res = await channel.getOrganizations();
+        return res;
+    } catch (error) {
+        console.log("error in get organizations.");
+        throw newError(errType.FABRIC, error);
+    }
+}
+
 module.exports.getBlockListByRange = async function(network, listenerId, startBlock, endBlock) {
     return new Promise(async(resolve,rejects) => {
         var blockList = [];
@@ -110,11 +120,11 @@ module.exports.getBlockListByRange = async function(network, listenerId, startBl
             await network.addBlockListener('listener' + listenerId, async(err, block) => {
                 if(!block) { rejects(newError(errType.FABRIC, "data no found")); }
                 else {
-                blockList.push(block);
-    
-                if(block.header.number == endBlock) {
-                    resolve(blockList);
-                }
+                    blockList.push(block);
+        
+                    if(block.header.number == endBlock) {
+                        resolve(blockList);
+                    }
                 }
             }, {startBlock: startBlock, endBlock: endBlock})
         } catch (error) {

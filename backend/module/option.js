@@ -47,22 +47,24 @@ async function ParseBlockListWithOpt(parser, blockList) {
 //
 
 const Options = {
-    All : 0,
-    Response : 1,
-    ChannelName : 2,
-    Timestamp : 3,
-    TransactionId : 4,
-    ChaincodeName : 5,
-    ChaincodeAgrs : 6,
-    RWset : 7
+    All : '0',
+    Response : '1',
+    ChannelName : '2',
+    Timestamp : '3',
+    TransactionId : '4',
+    ChaincodeName : '5',
+    ChaincodeAgrs : '6',
+    RWset : '7'
 }
 
 module.exports.OptionRouter = function(request) {
-    if(!request.body.option) {
-        request.body.option = Options.All;
+	console.log(request.query);
+    if(!request.query.option) {
+        request.query.option = Options.All;
         return Parser.defaultGet;
     }
-    switch(request.body.option) {
+
+    switch(request.query.option) {
         case Options.All:
             return Parser.defaultGet;
         case Options.Response:

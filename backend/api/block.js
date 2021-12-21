@@ -58,7 +58,7 @@ router.get('/blockByRange/:channelName/:startBlock/:endBlock', async(request, re
     const Parser = getBlockParser(request);
 
     try {
-        if(startBlock > endBlock) {
+        if(Number(startBlock) > Number(endBlock)) {
             return setResponse(response, 400, newError(errType.FABRIC, 'startBlock must be gt endBlock'));   
         }
 
@@ -82,7 +82,22 @@ router.get('/blockHeight/:channelName', async(request, response) => {
         const chanPool = await PoolGroup.getPoolByName(channelName);
         const result = await fabric.getBlockHeight(chanPool.Channel);
 	    
-	return setResponse(response, 200, result); 
+	    return setResponse(response, 200, result); 
+    } catch (error) {
+        return setResponse(response, 400, error);
+    }
+})
+
+router.get('/organization/:channelName', async(request, response) => {
+    console.log('start get organizations');
+
+    const { channelName } = request.params;
+
+    try {
+        const chanPool = await PoolGroup.getPoolByName(channelName);
+        const result = await fabric.getOrganization(chanPool.Channel);
+
+        return setResponse(response, 200, result); 
     } catch (error) {
         return setResponse(response, 400, error);
     }

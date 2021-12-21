@@ -46,21 +46,24 @@ module.exports.getTransactionId = function(data) {
 // TODO : Wrapping ? duplicated logic ... check channel block .
 module.exports.getChaincodeName = function(data) {
     if(!data.payload.data.actions) {
-        throw newError(errType.PARSER, "this is channel block.");
+        //throw newError(errType.PARSER, "this is channel block.");
+	    return null;
     }
     return data.payload.data.actions[0].payload.action.proposal_response_payload.extension.chaincode_id.name;
 }
 
 module.exports.getEventName = function(data) {
     if(!data.payload.data.actions) {
-        throw newError(errType.PARSER, "this is channel block.");
+        //throw newError(errType.PARSER, "this is channel block.");
+	    return null;
     }
     return data.payload.data.actions[0].payload.action.proposal_response_payload.extension.events;
 }
 
 module.exports.getResponse = function(data) {
     if(!data.payload.data.actions) {
-        throw newError(errType.PARSER, "this is channel block.");
+        //throw newError(errType.PARSER, "this is channel block.");
+	    return null;
     }
     return data.payload.data.actions[0].payload.action.proposal_response_payload.extension.response;
     // { message : "", payload : "", status : 200 }
@@ -68,14 +71,16 @@ module.exports.getResponse = function(data) {
 
 module.exports.getChaincodeArgs = function(data) {
     if(!data.payload.data.actions) {
-        throw newError(errType.PARSER, "this is channel block.");
+        //throw newError(errType.PARSER, "this is channel block.");
+	    return null;
     }
     return data.payload.data.actions[0].payload.chaincode_proposal_payload.input.chaincode_spec.input.args.toString();
 }
 
 module.exports.getRWset = function(data) {
     if(!data.payload.data.actions) {
-        throw newError(errType.PARSER, "this is channel block.");
+        //throw newError(errType.PARSER, "this is channel block.");
+	    return null;
     }
 
     var result = [];
