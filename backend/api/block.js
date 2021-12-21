@@ -19,10 +19,10 @@ router.get('/blockByNumber/:channelName/:blockNumber', async(request, response) 
     const { channelName, blockNumber } = request.params;
     const Parser = getBlockParser(request);
 
-	console.log(channelName, blockNumber);
+    console.log(channelName, blockNumber);
 
     try {
-	    const chanPool = await PoolGroup.getPoolByName(channelName);
+	const chanPool = await PoolGroup.getPoolByName(channelName);
 
         const block = await fabric.getBlockByNumber(chanPool.Channel, Number(blockNumber));
         const result = await ParseBlockWithOpt(Parser, block);
@@ -82,7 +82,7 @@ router.get('/blockHeight/:channelName', async(request, response) => {
         const chanPool = await PoolGroup.getPoolByName(channelName);
         const result = await fabric.getBlockHeight(chanPool.Channel);
 	    
-	    return setResponse(response, 200, result); 
+	return setResponse(response, 200, result); 
     } catch (error) {
         return setResponse(response, 400, error);
     }
