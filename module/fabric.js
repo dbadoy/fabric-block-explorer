@@ -2,7 +2,7 @@ const path = require('path');
 const { newError, errType } = require("./errhandler");
 
 const { FileSystemWallet ,Gateway } = require('fabric-network');
-const ccpPath = path.resolve(String(process.env.CONNECTIONORG1));
+const ccpPath = path.resolve(String(process.env.CONNECTIONFILE));
 
 const walletPath = path.join(process.env.WALLET);
 const wallet = new FileSystemWallet(walletPath);
