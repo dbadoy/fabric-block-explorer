@@ -15,11 +15,11 @@ module.exports.genFabricGateway = async function() {
     var connectionOptions = {
         identity: process.env.FABRIC_CLIENT_ID,
         wallet: wallet,
-        discovery: { enabled: true, asLocalhost: false}, 
+        discovery: { enabled: true, asLocalhost: true}, 
     } 
 
     if(process.env.MULTIHOST == "true") {
-        connectionOptions.discovery.asLocalhost = true;
+        connectionOptions.discovery.asLocalhost = false;
     }
 
     const gateway = new Gateway();
