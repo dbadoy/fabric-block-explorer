@@ -44,7 +44,7 @@ class Pool {
                 return ctr;
             }
         }
-        throw newError(errType.POOL, "non exist contract! : ", contractName)
+        throw newError(errType.POOL, "non exist contract! : ", contractName);
     }
 
     async setContract(contractName) {
