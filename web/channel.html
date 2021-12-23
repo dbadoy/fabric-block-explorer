@@ -88,9 +88,10 @@
                 var index = document.getElementById("pagenum").value;
                 var bh = document.getElementById("blockheight").innerHTML;
 
-                var pagination = Number(bh) / 5;
-                console.log(pagination);
-                getList();
+                if(index != 0) {
+                    getList();
+                }
+                
             </script>
         </div>
 
