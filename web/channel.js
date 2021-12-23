@@ -38,7 +38,7 @@ function getList() {
     const bh = Number(document.getElementById("blockheight").innerHTML);
 
     startblock = index;
-    endBlock = startblock + size;
+    endBlock = startblock + (size -1);
 
     if(endBlock >= bh) { endBlock = bh; }
 
