@@ -22,7 +22,7 @@ router.get('/blockByNumber/:channelName/:blockNumber', async(request, response) 
     console.log(channelName, blockNumber);
 
     try {
-	    const chanPool = await PoolGroup.getPoolByName(channelName);
+	const chanPool = await PoolGroup.getPoolByName(channelName);
 
         const block = await fabric.getBlockByNumber(chanPool.Channel, Number(blockNumber));
         const result = await ParseBlockWithOpt(Parser, block);
