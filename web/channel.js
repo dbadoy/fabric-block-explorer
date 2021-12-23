@@ -37,12 +37,12 @@ function getList() {
     const chan = document.getElementById("channel").innerHTML;
     const bh = Number(document.getElementById("blockheight").innerHTML);
 
-    startblock = index;
-    endBlock = startblock + (size -1);
+    startBlock = index;
+    endBlock = startBlock + (size -1);
 
     if(endBlock >= bh) { endBlock = bh; }
 
-    axios.get('http://YOURIP:5000/block/blockByRange/' + chan + '/' + startblock + '/' + endBlock)
+    axios.get('http://YOURIP:5000/block/blockByRange/' + chan + '/' + startBlock + '/' + endBlock)
     .then(res => {
         const area = document.getElementById("list");
         while (area.firstChild) {
