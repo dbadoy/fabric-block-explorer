@@ -1,5 +1,5 @@
 # Fabric-block-explorer
-This is block explorer for hyperledger fabric chaincode developer. <br>
+This is block explorer that does not require any database configuration for hyperledger fabric chaincode developer. <br>
 you can check block with blocknumber, blocknumber range to GUI. <br>
 There is options to presentation block data. (Arguments, Transactions, RWSet, ...)
 
