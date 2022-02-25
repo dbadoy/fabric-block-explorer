@@ -1,11 +1,11 @@
 # Fabric-block-explorer
-This is block explorer that does not require any database configuration for hyperledger fabric chaincode developer. <br>
-you can check block with blocknumber, blocknumber range to GUI. <br>
+This is block explorer that does not require any database configuration for hyperledger fabric chaincode developers. <br>
+You can check block with blocknumber, blocknumber range to GUI. <br>
 There is options to presentation block data. (Arguments, Transactions, RWSet, ...)
 
 ## Require
 ```
-Hyperledger fabric 1.4.x 
+hyperledger fabric 1.4.x 
 nodejs ^10.15.3 
 npm ^6.4.1 
 ```
