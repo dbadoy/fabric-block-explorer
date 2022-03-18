@@ -10,8 +10,8 @@ module.exports.getBlockNumber = function(block) {
 }
 
 module.exports.getSignerList = async function(block) {
-    var signerList = [];
-    var signatures = block.metadata.metadata[0].signatures;
+    let signerList = [];
+    let signatures = block.metadata.metadata[0].signatures;
 
     for await(const signature of signatures) {
         signerList.push(signature.signature_header.creator.Mspid);
@@ -20,7 +20,7 @@ module.exports.getSignerList = async function(block) {
 }
 
 module.exports.getDataList = function(block) {
-    var dataArr = [];
+    let dataArr = [];
     if(!block.data) {
         throw newError(errType.PARSER, "empty block.");
     }
@@ -83,7 +83,7 @@ module.exports.getRWset = function(data) {
 	    return null;
     }
 
-    var result = [];
+    let result = [];
     for (const rwset of data.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset) {
         if(rwset.rwset.writes.length > 0) {
             result.push(rwset.rwset.writes);

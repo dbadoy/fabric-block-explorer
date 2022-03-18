@@ -19,7 +19,7 @@ class errObject {
 }
 
 module.exports.newError = function(type, message) {
-    var err = new errObject(type, message);
+    let err = new errObject(type, message);
     return new Error(JSON.stringify(err));
 } 
 

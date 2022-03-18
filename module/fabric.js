@@ -12,7 +12,7 @@ module.exports.genFabricGateway = async function() {
         throw newError(errType.FABRIC, "not exist user in wallet.");
     };
 
-    var connectionOptions = {
+    let connectionOptions = {
         identity: process.env.FABRIC_CLIENT_ID,
         wallet: wallet,
         discovery: { enabled: true, asLocalhost: true}, 
@@ -115,7 +115,7 @@ module.exports.getOrganization = async function(channel) {
 
 module.exports.getBlockListByRange = async function(network, listenerId, startBlock, endBlock) {
     return new Promise(async(resolve,rejects) => {
-        var blockList = [];
+        let blockList = [];
         try {
             await network.addBlockListener('listener' + listenerId, async(err, block) => {
                 if(!block) { rejects(newError(errType.FABRIC, "data no found")); }

@@ -31,8 +31,8 @@ function getBlockHeight() {
 }
 
 function getList() {
-    var index = Number(document.getElementById("pagenum").value);
-    var size = Number(document.getElementById("pageSize").value);
+    let index = Number(document.getElementById("pagenum").value);
+    let size = Number(document.getElementById("pageSize").value);
 
     const chan = document.getElementById("channel").innerHTML;
     const bh = Number(document.getElementById("blockheight").innerHTML);
@@ -50,12 +50,12 @@ function getList() {
         }
 
         for(const block of res.data.payload) {
-            var tr = document.createElement('tr');
+            let tr = document.createElement('tr');
 
-            var bh = document.createElement('td');
-            var txn = document.createElement('td');
-            var timstamp = document.createElement('td');
-            var datahash = document.createElement('td');
+            let bh = document.createElement('td');
+            let txn = document.createElement('td');
+            let timstamp = document.createElement('td');
+            let datahash = document.createElement('td');
 
             bh.innerHTML = block.header.number;
             txn.innerHTML = block.data.data.length;
@@ -83,7 +83,7 @@ function getblock() {
 
     const option = document.getElementById("option").value;
 
-    var obj = {
+    let obj = {
         option : Number(option)
     }
 
@@ -97,9 +97,9 @@ function getblock() {
         }
 
         if(!res.data.payload.length) {
-            var nd = document.createElement("div");
-            var na = document.createElement("p");
-            var hr = document.createElement("hr");
+            let nd = document.createElement("div");
+            let na = document.createElement("p");
+            let hr = document.createElement("hr");
 
             na.innerHTML = JSON.stringify(res.data.payload);
 
@@ -108,9 +108,9 @@ function getblock() {
             area.appendChild(hr);
         } else {
             for(const tx of res.data.payload) {
-                var nd = document.createElement("div");
-                var na = document.createElement("p");
-                var hr = document.createElement("hr");
+                let nd = document.createElement("div");
+                let na = document.createElement("p");
+                let hr = document.createElement("hr");
 
                 na.innerHTML = JSON.stringify(tx);
 

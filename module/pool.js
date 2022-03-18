@@ -49,7 +49,7 @@ class Pool {
 
     async setContract(contractName) {
         try {
-            var object = {
+            let object = {
                 "ContractName": null,
                 "Contract": null
             };
@@ -91,7 +91,7 @@ class PoolGroup {
         try {
             const res = await this.getPoolByName(poolName);
         } catch (error) {
-            var object = {
+            let object = {
                 PoolName: null,
                 Pool: null
             };
@@ -105,7 +105,7 @@ class PoolGroup {
     }
 
     refreshPoolGroup() {
-        for(var i = 0; i < this.List.length; i++) {
+        for(let i = 0; i < this.List.length; i++) {
             if(!this.List[i].Pool.isConnect) {
                 delete this.List[i];
                 this.List = this.List.filter((elem, i) => elem != null);
@@ -115,7 +115,7 @@ class PoolGroup {
 
     async delPool(poolName) {
         try {
-            var pool = await this.getPoolByName(poolName); 
+            let pool = await this.getPoolByName(poolName); 
             await pool.Disconnect();
             this.refreshPoolGroup();
         } catch (error) {
@@ -137,7 +137,7 @@ class PoolGroup {
     }
 
     async getAllPoolName() {
-        var arr = [];
+        let arr = [];
         if(this.List.length == 0) {
             throw newError(errType.POOL, "empty pool");
         }

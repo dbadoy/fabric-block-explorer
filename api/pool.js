@@ -19,7 +19,7 @@ router.post('/', async(request, response) => {
     console.log('start createPool.');
 
     const { channelName } = request.body;
-    var newPool = createPool(channelName);
+    let newPool = createPool(channelName);
 
     try {
         await newPool.Initial();

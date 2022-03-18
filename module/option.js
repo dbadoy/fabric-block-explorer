@@ -5,19 +5,19 @@ module.exports.ParseBlockListWithOpt = ParseBlockListWithOpt;
 
 // how to solve RWset ( contractname )
 async function ParseBlockWithOpt(parser, block) {
-    var result = []; 
+    let result = []; 
 
     if(parser == Parser.defaultGet) {
         return block;
     }
 
-    var dataList = Parser.getDataList(block);
+    let dataList = Parser.getDataList(block);
     for await(const data of dataList) {
-        var obj = {
+        let obj = {
             "transactionId" : Parser.getTransactionId(data),
             "result" : null
         }
-        var parsedData = parser(data);
+        let parsedData = parser(data);
 
         obj.result = parsedData;
         result.push(obj);
@@ -26,18 +26,18 @@ async function ParseBlockWithOpt(parser, block) {
 }
 
 async function ParseBlockListWithOpt(parser, blockList) {
-    var result = [];
+    let result = [];
 
     if(parser == Parser.defaultGet) {
         return blockList;
     }
 
     for await(const block of blockList) {
-        var obj = {
+        let obj = {
             "blockNumber" : block.header.number,
             "result" : null 
         }
-        var parsedBlock = await ParseBlockWithOpt(parser, block);
+        let parsedBlock = await ParseBlockWithOpt(parser, block);
 
         obj.result = parsedBlock;
         result.push(obj);
